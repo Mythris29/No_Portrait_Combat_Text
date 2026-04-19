@@ -1,0 +1,9 @@
+## Interface: 120001
+## Title: No Portrait Combat Text
+## Notes: Disables combat feedback (damage/heal text) on player, target, focus, and party portraits.
+## Author: Mythris
+## Version: 12.0.1-1
+## X-Category: Unit Frames
+## X-Curse-Project-ID: 1102027
+
+No_Portrait_Combat_Text.lua
