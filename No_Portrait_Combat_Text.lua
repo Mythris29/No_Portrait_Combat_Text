@@ -92,6 +92,7 @@ end
 -- Build the Blizzard Settings panel (AddOns tab).
 local function BuildSettingsPanel()
     local category = Settings.RegisterVerticalLayoutCategory("No Portrait Combat Text")
+    local hideSettings = {} -- key -> registered setting, so a scope switch can refresh the checkboxes
 
     -- Checkbox: Use Character-Specific Settings
     local useCharVarTbl = { UseCharacterSettings = NoPortraitCombatText_Char.UseCharacterSettings or false }
@@ -107,6 +108,10 @@ local function BuildSettingsPanel()
     useCharSetting:SetValue(NoPortraitCombatText_Char.UseCharacterSettings or false)
     useCharSetting:SetValueChangedCallback(function(_, value)
         SetUseCharacterSettings(value)
+        -- Show the newly active scope's values; otherwise the checkboxes keep the old scope's.
+        for key, setting in pairs(hideSettings) do
+            setting:SetValue(GetSetting(key))
+        end
         ApplyAllSettings()
     end)
     Settings.CreateCheckbox(
@@ -127,6 +132,7 @@ local function BuildSettingsPanel()
             label,
             DEFAULTS[key]
         )
+        hideSettings[key] = setting
         local current = GetSetting(key)
         if current == nil then current = DEFAULTS[key] end
         setting:SetValue(current)
